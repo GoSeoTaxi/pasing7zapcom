@@ -63,6 +63,7 @@ func getReq(sURL string) (body []byte) {
 		client := &http.Client{Timeout: time.Second * 10}
 
 		res, err := client.Do(req)
+		defer res.Body.Close()
 		if err != nil {
 			//	fmt.Println(sURL)
 			fmt.Println(err)
@@ -73,12 +74,12 @@ func getReq(sURL string) (body []byte) {
 
 		body, err = ioutil.ReadAll(res.Body)
 		if err != nil {
-			log.Fatal("Error reading body. ", err)
+			fmt.Println(`Error reading body. `)
+			fmt.Println(err)
+			time.Sleep(constData.ReplyGetRequestTimeOut * time.Second)
+			continue
 		}
-
-		defer res.Body.Close()
 		break
 	}
 	return body
-
 }

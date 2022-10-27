@@ -43,12 +43,8 @@ func MakeList(s []string) {
 			}
 			temp1.Scriping()
 
-			//counter++
-
 		})
 
 	})
-
-	//	fmt.Println(counter)
 
 }
