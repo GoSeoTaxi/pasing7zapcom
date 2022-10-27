@@ -1,0 +1,54 @@
+package makeListUrl
+
+import (
+	"github.com/PuerkitoBio/goquery"
+	"pasing7zapcom/internal/constData"
+	"pasing7zapcom/internal/libs"
+	"pasing7zapcom/internal/scraping"
+	"strings"
+	"time"
+)
+
+//var counter int
+
+func MakeList(s []string) {
+
+	textBefore := s[0]
+	getQ := libs.URLInputGet{URLIn: s[1]}
+	doc := getQ.Geter()
+
+	doc.Find("ul.levamCatalogTree").Each(func(i int, s *goquery.Selection) {
+		s.Find("a.ml-3").Each(func(i3 int, l1 *goquery.Selection) {
+			urlOut, _ := l1.Attr("href")
+			text := ""
+			for iT1 := 0; iT1 < 8; iT1++ {
+				l1 = l1.Parent()
+				title_1, iT1B := l1.Attr("data-name")
+				if iT1B {
+					if iT1 == 0 {
+						text = title_1
+					} else {
+						text = title_1 + constData.SepatatorName + text
+					}
+				}
+			}
+
+			replacer := strings.NewReplacer(" ", "%20")
+			out := replacer.Replace(urlOut)
+			temp1 := scraping.DataSc{
+				TextBefore:  textBefore,
+				URLScriping: out,
+				Text2File:   text,
+				TimeStart:   time.Now(),
+			}
+			temp1.Scriping()
+
+			//counter++
+
+		})
+
+	})
+
+	//	fmt.Println(counter)
+
+}

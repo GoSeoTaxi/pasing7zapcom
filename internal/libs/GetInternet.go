@@ -1,0 +1,84 @@
+package libs
+
+import (
+	"bytes"
+	"fmt"
+	"github.com/PuerkitoBio/goquery"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"pasing7zapcom/internal/constData"
+	"time"
+)
+
+type URLInputGet struct {
+	URLIn string
+}
+
+func (s URLInputGet) Geter() (doc *goquery.Document) {
+
+	body := getReq(s.URLIn)
+
+	//	fmt.Println(body)
+	//fmt.Println(string(body))
+	//	fmt.Println(`+++++`)
+	//	fmt.Println(body)
+	/*	res, err := http.Get(s.URLIn)
+		if err != nil {
+			fmt.Println(s.URLIn)
+			fmt.Println(err)
+			fmt.Println(`Не считали данные`)
+			return doc
+		}
+		defer res.Body.Close()*/
+
+	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(body))
+	if err != nil {
+		fmt.Println(`Не верные данные`)
+		log.Fatal(err)
+	}
+	return doc
+}
+
+func getReq(sURL string) (body []byte) {
+
+	time.Sleep(constData.TimeOutRequest * time.Second)
+
+	for rep := 0; rep < constData.ReplyGetRequest; rep++ {
+
+		if rep > 0 {
+			fmt.Printf("Ошибка сети. Запуск цил повтора. Попытка номер - %v \nURL - %v \n", rep, sURL)
+		}
+
+		req, err := http.NewRequest("GET", sURL, nil)
+		if err != nil {
+			fmt.Println(err)
+			fmt.Println(`Не Создали запрос`)
+			time.Sleep(constData.ReplyGetRequestTimeOut * time.Second)
+			continue
+		}
+
+		req.Header.Set("User-Agent", constData.UserAgert)
+		req.Header.Set("Cache-Control", "no-cache")
+		client := &http.Client{Timeout: time.Second * 10}
+
+		res, err := client.Do(req)
+		if err != nil {
+			//	fmt.Println(sURL)
+			fmt.Println(err)
+			fmt.Println(`Не считали данные`)
+			time.Sleep(constData.ReplyGetRequestTimeOut * time.Second)
+			continue
+		}
+
+		body, err = ioutil.ReadAll(res.Body)
+		if err != nil {
+			log.Fatal("Error reading body. ", err)
+		}
+
+		defer res.Body.Close()
+		break
+	}
+	return body
+
+}
