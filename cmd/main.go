@@ -8,40 +8,37 @@ import (
 	"log"
 	"os"
 	"pasing7zapcom/internal/constData"
+	"pasing7zapcom/internal/endApp"
 	"pasing7zapcom/internal/initApp"
 	"pasing7zapcom/internal/makeListUrl"
 	"time"
 )
-
-const urlListDirectory = "https://7zap.com/ru/catalog/cars/Audi/A4/Audi%20A4%2FS4%2FAvant%2Fquattro%20%282016%20-%202021%29/UjBRVnVEYlRvdHRBT2pGMThabzFEUT09--/"
-const urlListDirectory2 = "https://7zap.com/ru/catalog/cars/Audi/Q7/Audi%20Q7%20%282016%20-%202021%29/bmo1S0FpZzlhK1RDWmdaazdDUzV1Zz09--/"
-
-var end string
 
 func main() {
 
 	fmt.Println(`Запуск`)
 	time.Sleep(constData.TimeSleepStart * time.Second)
 
-	records := initApp.ReadCsvFile(constData.InputCSV)
+	records, err := initApp.ReadCsvFile(constData.InputCSV)
 	//	fmt.Println(records)
+	if err != nil {
+		endApp.Fin()
+	}
 
 	//	Старый способ передачи
 	//	StartingParsint(ReadLines(constData.FileRead))
 
+	//fmt.Println(records)
+
 	StartingParsint(records)
 
-	fmt.Println("Нажми Enter")
-	fmt.Scanf("%s\n", &end)
-
+	endApp.Fin()
 }
 
 func StartingParsint(lines [][]string) {
 
 	for value := range lines {
-
 		makeListUrl.MakeList(lines[value])
-
 	}
 
 	//for i := 0; i < len(lines); i++ {

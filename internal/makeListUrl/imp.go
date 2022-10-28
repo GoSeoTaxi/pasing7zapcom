@@ -1,8 +1,11 @@
 package makeListUrl
 
 import (
+	"fmt"
 	"github.com/PuerkitoBio/goquery"
+	"net/url"
 	"pasing7zapcom/internal/constData"
+	"pasing7zapcom/internal/endApp"
 	"pasing7zapcom/internal/libs"
 	"pasing7zapcom/internal/scraping"
 	"strings"
@@ -13,7 +16,21 @@ import (
 
 func MakeList(s []string) {
 
+	_, err := url.ParseRequestURI(s[1])
+	if err != nil {
+		fmt.Println(`Ошибка в файле импорта.`)
+		fmt.Println(s[1])
+		fmt.Println(`Не является URL`)
+		endApp.Fin()
+	}
+
 	textBefore := s[0]
+	if len(textBefore) < 1 {
+		fmt.Println(`Нет дополнительного значения для URL`)
+		fmt.Println(s[1])
+		endApp.Fin()
+	}
+
 	getQ := libs.URLInputGet{URLIn: s[1]}
 	doc := getQ.Geter()
 

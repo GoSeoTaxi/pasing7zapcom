@@ -63,12 +63,12 @@ func getReq(sURL string) (body []byte) {
 		client := &http.Client{Timeout: time.Second * 10}
 
 		res, err := client.Do(req)
-		defer res.Body.Close()
 		if err != nil {
 			//	fmt.Println(sURL)
 			fmt.Println(err)
 			fmt.Println(`Не считали данные`)
 			time.Sleep(constData.ReplyGetRequestTimeOut * time.Second)
+			res.Body.Close()
 			continue
 		}
 
@@ -77,8 +77,10 @@ func getReq(sURL string) (body []byte) {
 			fmt.Println(`Error reading body. `)
 			fmt.Println(err)
 			time.Sleep(constData.ReplyGetRequestTimeOut * time.Second)
+			res.Body.Close()
 			continue
 		}
+		res.Body.Close()
 		break
 	}
 	return body
