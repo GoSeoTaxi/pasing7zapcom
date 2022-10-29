@@ -18,41 +18,19 @@ func main() {
 
 	fmt.Println(`Запуск`)
 	time.Sleep(constData.TimeSleepStart * time.Second)
-
 	records, err := initApp.ReadCsvFile(constData.InputCSV)
-	//	fmt.Println(records)
 	if err != nil {
 		endApp.Fin()
 	}
 
-	//	Старый способ передачи
-	//	StartingParsint(ReadLines(constData.FileRead))
-
-	//fmt.Println(records)
-
 	StartingParsint(records)
-
 	endApp.Fin()
 }
 
 func StartingParsint(lines [][]string) {
-
 	for value := range lines {
 		makeListUrl.MakeList(lines[value])
 	}
-
-	//for i := 0; i < len(lines); i++ {
-	//	fmt.Println(lines[i][0])
-	//	fmt.Println(`++`)
-	//	fmt.Println(lines[i])
-	//	fmt.Println(lines[i][1])
-	//}
-
-	/*	for i := 0; i < len(lines); i++ {
-		fmt.Println(lines[i])
-		makeListUrl.MakeList(lines[i])
-	}*/
-
 }
 
 func ReadLines(path string) (lines []string) {

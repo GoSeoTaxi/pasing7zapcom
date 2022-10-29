@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"pasing7zapcom/internal/ChangeData"
 	"pasing7zapcom/internal/constData"
 	"time"
 )
@@ -18,11 +19,6 @@ type URLInputGet struct {
 func (s URLInputGet) Geter() (doc *goquery.Document) {
 
 	body := getReq(s.URLIn)
-
-	//	fmt.Println(body)
-	//fmt.Println(string(body))
-	//	fmt.Println(`+++++`)
-	//	fmt.Println(body)
 	/*	res, err := http.Get(s.URLIn)
 		if err != nil {
 			fmt.Println(s.URLIn)
@@ -41,8 +37,8 @@ func (s URLInputGet) Geter() (doc *goquery.Document) {
 }
 
 func getReq(sURL string) (body []byte) {
-
 	time.Sleep(constData.TimeOutRequest * time.Second)
+	sURL = ChangeData.Replacer(sURL)
 
 	for rep := 0; rep < constData.ReplyGetRequest; rep++ {
 
@@ -60,15 +56,14 @@ func getReq(sURL string) (body []byte) {
 
 		req.Header.Set("User-Agent", constData.UserAgert)
 		req.Header.Set("Cache-Control", "no-cache")
-		client := &http.Client{Timeout: time.Second * 10}
 
+		client := &http.Client{Timeout: (time.Second * constData.TimeOutRequestGeter * time.Duration(rep+1))}
 		res, err := client.Do(req)
 		if err != nil {
 			//	fmt.Println(sURL)
 			fmt.Println(err)
 			fmt.Println(`Не считали данные`)
 			time.Sleep(constData.ReplyGetRequestTimeOut * time.Second)
-			res.Body.Close()
 			continue
 		}
 

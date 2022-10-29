@@ -8,7 +8,6 @@ import (
 	"pasing7zapcom/internal/endApp"
 	"pasing7zapcom/internal/libs"
 	"pasing7zapcom/internal/scraping"
-	"strings"
 	"time"
 )
 
@@ -50,11 +49,12 @@ func MakeList(s []string) {
 				}
 			}
 
-			replacer := strings.NewReplacer(" ", "%20")
-			out := replacer.Replace(urlOut)
+			//	replacer := strings.NewReplacer(" ", "%20")
+			//	out := replacer.Replace(urlOut)
+
 			temp1 := scraping.DataSc{
 				TextBefore:  textBefore,
-				URLScriping: out,
+				URLScriping: urlOut,
 				Text2File:   text,
 				TimeStart:   time.Now(),
 			}
