@@ -57,7 +57,9 @@ func getReq(sURL string) (body []byte) {
 		req.Header.Set("User-Agent", constData.UserAgert)
 		req.Header.Set("Cache-Control", "no-cache")
 
-		client := &http.Client{Timeout: (time.Second * constData.TimeOutRequestGeter * time.Duration(rep+1))}
+		fmt.Println(`*`)
+
+		client := &http.Client{Timeout: (time.Second * constData.TimeOutRequestGeter)}
 		res, err := client.Do(req)
 		if err != nil {
 			//	fmt.Println(sURL)
