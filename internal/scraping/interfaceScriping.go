@@ -113,17 +113,20 @@ func parsingDataFromURL(strData DataSc) {
 						constData.Separator +
 						replacer.Replace(textI) +
 						constData.Separator +
-						delBlack.Replace(replacer.Replace(CodeAddNEWClean[0])) +
-						/* 	constData.Separator +
-								replacer.Replace(NSchemeAdd) +
-								constData.Separator +
-								replacer.Replace(QAdd) +
-								constData.Separator +
 						delBlack.Replace(replacer.Replace(CodeAddNEWClean[0]))
-									replacer.Replace(InfoAdd)
-						*/
+				/* 	constData.Separator +
+						replacer.Replace(NSchemeAdd) +
 						constData.Separator +
-						delBlack.Replace(replacer.Replace(CodeAddNEWClean[0]))
+						replacer.Replace(QAdd) +
+						constData.Separator +
+				delBlack.Replace(replacer.Replace(CodeAddNEWClean[0]))
+							replacer.Replace(InfoAdd)
+				*/
+				//constData.Separator +
+				//	delBlack.Replace(replacer.Replace(CodeAddNEWClean[1]))
+				if len(replacer.Replace(CodeAddNEWClean[1])) > 2 {
+					strOutW = strOutW + constData.Separator + replacer.Replace(CodeAddNEWClean[1])
+				}
 
 				_ = NSchemeAdd
 				_ = QAdd
