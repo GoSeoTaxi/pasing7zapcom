@@ -31,9 +31,9 @@ func writeLines(lines []string, time string, path string) error {
 
 	var abcd []byte
 	lineFiles, err := os.Stat(path)
-	if errors.Is(err, os.ErrNotExist) || lineFiles.Size() == 0 {
+	if errors.Is(err, os.ErrNotExist) || lineFiles.Size() < 0 {
 		ioutil.WriteFile(path, abcd, 0644)
-		//	log.Fatal(`Пустой файл с ответами`)
+		log.Fatal(`Нет доступа к файлу`)
 	}
 
 	file, err := os.OpenFile(path, os.O_APPEND, 0666)

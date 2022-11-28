@@ -49,8 +49,8 @@ func MakeList(s []string) {
 				}
 			}
 
-			//	replacer := strings.NewReplacer(" ", "%20")
-			//	out := replacer.Replace(urlOut)
+			//		replacer := strings.NewReplacer(" ", "%20")
+			//			urlOut = replacer.Replace(urlOut)
 
 			temp1 := scraping.DataSc{
 				TextBefore:  textBefore,
@@ -58,6 +58,7 @@ func MakeList(s []string) {
 				Text2File:   text,
 				TimeStart:   time.Now(),
 			}
+
 			temp1.Scriping()
 
 		})
